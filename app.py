@@ -5,8 +5,6 @@ from flask_cors import CORS
 from models import setup_db, Actor, Movie, db
 from auth import requires_auth, AuthError
 
-app = Flask(__name__)
-
 
 def create_app(test_config=None):
     # create and configure the app
@@ -199,9 +197,11 @@ def create_app(test_config=None):
         response = jsonify(ex.error)
         response.status_code = ex.status_code
         return response
+
     return app
 
 
+app = Flask(__name__)
 APP = create_app()
 
 if __name__ == '__main__':
