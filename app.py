@@ -1,4 +1,6 @@
 import os
+import sys
+
 from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
@@ -25,7 +27,7 @@ def create_app(test_config=None):
             abort(404)
 
     # GET all Movies
-    @app.route('/Movies')
+    @app.route('/Movies', methods=['GET'])
     @requires_auth('get:movies')
     def get_movies(jwt):
         try:
@@ -47,6 +49,7 @@ def create_app(test_config=None):
             new_age = body.get('age', None)
             new_gender = body.get('gender', None)
         except Exception:
+            print(sys.exc_info()[0])
             abort(400)
         try:
             new_actor = Actor(name=new_name,
@@ -191,6 +194,14 @@ def create_app(test_config=None):
             "error": 401,
             "message": "Unauthorized Error"
         }), 401
+
+    @app.errorhandler(500)
+    def Internal_error(error):
+        return jsonify({
+            "success": False,
+            "error": 500,
+            "message": "Internal Server Error"
+        }), 500
 
     @app.errorhandler(AuthError)
     def handle_auth_error(ex):
