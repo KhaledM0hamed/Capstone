@@ -36,7 +36,7 @@ This will install all of the required packages from the `requirements.txt` file.
 
 - [Flask](http://flask.pocoo.org/)  is a lightweight backend microservices framework. Flask is required to handle requests and responses.
 
-- [SQLAlchemy](https://www.sqlalchemy.org/) and [Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/en/2.x/) are libraries to handle the lightweight sqlite database. Since we want you to focus on auth, we handle the heavy lift for you in `./src/database/models.py`.    
+- [SQLAlchemy](https://www.sqlalchemy.org/) and [Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/en/2.x/) are libraries to handle the lightweight sqlite database.  
 
 - [jose](https://python-jose.readthedocs.io/en/latest/) JavaScript Object Signing and Encryption for JWTs. Useful for encoding, decoding, and verifying JWTS.
 
@@ -55,13 +55,6 @@ createdb casting
 ## Running the server
 
 From within the current directory first ensure you are working using your created virtual environment.
-
-Each time you open a new terminal session, run:
-
-```bash
-export FLASK_APP=app.py
-export FLASK_ENV=development
-```
 
 To run the server, execute:
 
