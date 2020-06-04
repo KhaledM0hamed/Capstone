@@ -6,9 +6,11 @@ from flask_migrate import Migrate
 
 db = SQLAlchemy()
 
+DATABASE_URI = 'postgres://postgres:ASDasd225588@localhost:5432/fsnd'
 
-def setup_db(app):
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://postgres:ASDasd225588@localhost:5432/fsnd'
+
+def setup_db(app, DATABASE_URI = DATABASE_URI):
+    app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
     db.init_app(app)

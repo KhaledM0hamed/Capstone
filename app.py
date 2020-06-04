@@ -13,7 +13,7 @@ def create_app(test_config=None):
     setup_db(app)
 
     # GET all Actors
-    @app.route('/actors', methods=['GET'])
+    @app.route('/actors')
     @requires_auth('get:actors')
     def get_actors(jwt):
         try:
@@ -26,14 +26,14 @@ def create_app(test_config=None):
             abort(404)
 
     # GET all Movies
-    @app.route('/Movies', methods=['GET'])
+    @app.route('/Movies')
     @requires_auth('get:movies')
-    def get_movies():
+    def get_movies(jwt):
         try:
             movies_list = list(map(Movie.format, Movie.query.all()))
             return jsonify({"success": True,
-                            "actors": movies_list,
-                            "total_actors": len(Movie.query.all())
+                            "movies": movies_list,
+                            "total_movies": len(Movie.query.all())
                             }), 200
         except Exception:
             abort(404)
@@ -87,7 +87,7 @@ def create_app(test_config=None):
     def patch_actor(jwt, actor_id):
         # find_actor = Actor.query.get(actor_id)
         actor = Actor.query.filter(Actor.actor_id == actor_id).one_or_none()
-        print(actor.format())
+        # print(actor.format())
         if actor is None:
             abort(404)
 
@@ -132,8 +132,10 @@ def create_app(test_config=None):
             actor = Actor.query.filter(Actor.actor_id == actor_id).one_or_None()
             if actor is None:
                 abort(404)
+            db.session.delete(actor)
+            db.session.commit()
 
-            actor.delete()
+            # actor.delete()     --> ?
             return jsonify({
                 'success': True,
                 'delete': actor_id
@@ -148,8 +150,10 @@ def create_app(test_config=None):
             movie = Movie.query.filter(Movie.movie_id == movie_id).one_or_None()
             if movie is None:
                 abort(404)
+            db.session.delete(movie)
+            db.session.commit()
 
-            movie.delete()
+            # movie.delete()
             return jsonify({
                 'success': True,
                 'delete': movie_id
